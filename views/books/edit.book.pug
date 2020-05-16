@@ -1,0 +1,18 @@
+extends ../layout/common
+
+block content
+  
+  .container
+    h1 Edit book
+    
+    form(action='/books-manage/edit/'+book.id, method='POST', enctype='multipart/form-data')
+      .form-group
+        label Edit Book Name
+        input.form-control.shadow-none(name='title', type='text', value=book.title)
+      
+      .form-group
+        label Edit Cover
+        br
+        input.shadow-none(type='file' name='cover')
+
+      button.btn.btn-primary.ml-2.shadow-none(type='submit') Update
