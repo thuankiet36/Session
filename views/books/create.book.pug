@@ -1,0 +1,21 @@
+extends ../layout/common
+
+block content
+  .container
+    h1 Create Book
+
+    form(action='/books-manage/create' method='POST' enctype='multipart/form-data')
+      .form-group
+        label Title
+        input.form-control.shadow-none(name='title' type='text' placeholder='Title')
+  
+      .form-group
+        label Description
+        input.form-control.shadow-none(name='description' type='text' placeholder='Description')
+  
+      .form-group
+        label Cover
+        br
+        input.shadow-none(type='file' name='cover')
+
+      button.btn.btn-primary.shadow-none(type='submit') Add Book

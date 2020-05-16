@@ -1,0 +1,8 @@
+extends ../layout/common
+
+block content
+  .container
+    h1 Profile
+    a(href="/users/edit-user/"+user.id) Edit User Name
+    br
+    a(href="/profile/avatar") Upload Avatar

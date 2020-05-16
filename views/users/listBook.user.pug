@@ -1,0 +1,13 @@
+extends ../layout/common2
+
+block content
+  .container
+    if error
+      each err in error
+        .alert.alert-warning.alert-dismissible.fade.show(role='alert')= err
+    
+    h1 Archives
+    h3.text-danger Cart (#{cart})
+    a(href="/profile") Profile
+    br
+    a(href="/books") Click here to rent book

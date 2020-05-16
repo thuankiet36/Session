@@ -1,0 +1,50 @@
+extends ../layout/home.pug
+
+block content
+  .container
+    h1 List of books
+    h3.text-danger Cart (#{cart})
+    table.table
+      tr
+        th Cover
+        th Book Name
+        th Rent
+    
+      each book in books
+        tr
+          td
+            img(src=book.coverUrl width="64")
+          td= book.title
+          td
+            a.pl-2.pr-2.text-white.rounded(href='/cart/add/'+book.id style='background-color:green; text-decoration:none; color:white') Add to cart
+    
+    if(pages > 0)
+      ul.pagination
+        if(current == 1)
+          li.page-item.disabled
+            a.page-link.shadow-none First
+        else
+          li.page-item
+            a.page-link.shadow-none(href='/books?page=1') First
+            
+        - var n = (current > 3 ? current - 2 : 1);
+        if(n !== 1)
+          li.page-item.disabled
+            a.page-link.shadow-none ...
+            
+        - for(; n <= (current + 2) && n <= pages; n++)
+          if(current == n)
+            li.page-item.active
+              a.page-link.shadow-none= n
+          else
+            li.page-item
+              a.page-link.shadow-none(href="/books?page="+n)= n
+          if(n == current + 2 && n < pages)
+            li.page-item.disabled
+              a.page-link.shadow-none ...
+        if (current == pages)
+          li.page-item.disabled
+            a.page-link.shadow-none Last
+        else
+          li.page-item
+            a.page-link.shadow-none(href='/books?page='+pages) Last
