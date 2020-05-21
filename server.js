@@ -8,6 +8,19 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}, (err) => {
+  if(!err) {
+    console.log("Seccess connected")
+  }
+  else {
+    console.log("Error connecting to database")
+  }
+});
 
 const bookManageRoute = require("./routes/book-manage.route.js");
 const bookRoute = require("./routes/book.route.js");
