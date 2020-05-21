@@ -72,13 +72,13 @@ module.exports.postCreate = async (request, response, next) => {
   var result = await cloudinary.v2.uploader.upload(request.file.path);
   var url = result.url;
   var book = new Book({
-    id: shortId.generate(),
     title: request.body.title,
     description: request.body.description,
     coverUrl: url,
   });
   try {
     book = await book.save();
+    console.log(book._id);
     response.redirect("/books-manage");
   } catch (error) {
     next(error);
@@ -86,32 +86,56 @@ module.exports.postCreate = async (request, response, next) => {
 };
 
 // edit book
-module.exports.edit = (request, response) => {
-  var id = request.params.id;
-  db.get("books")
-    .value()
-    .filter((book) => {
-      if (book.id === id) {
-        response.render("./books/edit.book.pug", {
-          book: book,
-        });
-      }
-    });
+// module.exports.edit = (request, response) => {
+//   var id = request.params.id;
+//   db.get("books")
+//     .value()
+//     .filter((book) => {
+//       if (book.id === id) {
+//         response.render("./books/edit.book.pug", {
+//           book: book,
+//         });
+//       }
+//     });
+// };
+
+module.exports.edit = async (request, response) => {
+  var book = await Book.findById(request.params.id);
+  response.render("./books/edit.book.pug", {
+    book: book,
+  });
 };
 
-module.exports.postEdit = async (request, response, next) => {
+// module.exports.postEdit = async (request, response, next) => {
+//   try {
+//     var result = await cloudinary.v2.uploader.upload(request.file.path);
+//     var url = result.url;
+//     var id = request.params.id;
+//     var bookTitle = request.body.title;
+//     db.get("books")
+//       .find({ id: id })
+//       .assign({ title: bookTitle, coverUrl: url })
+//       .write();
+//     response.redirect("/books-manage");
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+module.exports.postEdit = async (request, response) => {
+  var result = await cloudinary.v2.uploader.upload(request.file.path);
+  var url = result.url;
+  var id = request.params.id;
+  var bookTitle = request.body.title;
+  var book = await Book.findById(id);
+  book.title = bookTitle;
+  book.coverUrl = url;
+
   try {
-    var result = await cloudinary.v2.uploader.upload(request.file.path);
-    var url = result.url;
-    var id = request.params.id;
-    var bookTitle = request.body.title;
-    db.get("books")
-      .find({ id: id })
-      .assign({ title: bookTitle, coverUrl: url })
-      .write();
+    book = await book.save();
     response.redirect("/books-manage");
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -121,3 +145,7 @@ module.exports.delete = (request, response) => {
   db.get("books").remove({ id: id }).write();
   response.redirect("/books-manage");
 };
+
+// module.exports.delete = (request, response) => {
+//   var id = request.params.id
+// }

@@ -26,16 +26,16 @@ module.exports.index = (request, response) => {
   });
 };
 
-module.exports.inde = async (request, response) => {
-  var books = await Book.find();
-  var page = parseInt(request.query.page) || 1;
-  var perPage = 5;
-  var totalBooks = books.length;
-  var pages = Math.ceil(totalBooks / perPage);
-  var start = (page - 1) * perPage;
-  var end = page * perPage;
-  var sessionId = request.signedCookies.sessionId;
-  var userId = request.signedCookies.userId;
-  var sessions = await Session.find()
-  console.log(sessions)
-};
+// module.exports.inde = async (request, response) => {
+//   var books = await Book.find();
+//   var page = parseInt(request.query.page) || 1;
+//   var perPage = 5;
+//   var totalBooks = books.length;
+//   var pages = Math.ceil(totalBooks / perPage);
+//   var start = (page - 1) * perPage;
+//   var end = page * perPage;
+//   var sessionId = request.signedCookies.sessionId;
+//   var userId = request.signedCookies.userId;
+//   var sessions = await Session.find()
+//   console.log(sessions)
+// };

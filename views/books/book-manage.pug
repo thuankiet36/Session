@@ -20,9 +20,9 @@ block content
           td= book.title
           td= book.description
           td
-            a.pl-2.pr-2.text-white.rounded(href='/books-manage/edit-form/'+book.id style='background-color:dodgerblue; text-decoration:none; color:white') Update
+            a.pl-2.pr-2.text-white.rounded(href='/books-manage/edit-form/'+book._id style='background-color:dodgerblue; text-decoration:none; color:white') Update
           td
-            a.pl-2.pr-2.text-white.rounded(href='/books-manage/' + book.id + '/delete' style='background-color:red; text-decoration:none; color:white') Delete
+            a.pl-2.pr-2.text-white.rounded(href='/books-manage/' + book._id + '/delete' style='background-color:red; text-decoration:none; color:white') Delete
     
     if(pages > 0)
       ul.pagination
