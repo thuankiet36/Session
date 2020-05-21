@@ -78,7 +78,6 @@ module.exports.postCreate = async (request, response, next) => {
   });
   try {
     book = await book.save();
-    console.log(book._id);
     response.redirect("/books-manage");
   } catch (error) {
     next(error);
@@ -125,10 +124,8 @@ module.exports.edit = async (request, response) => {
 module.exports.postEdit = async (request, response) => {
   var result = await cloudinary.v2.uploader.upload(request.file.path);
   var url = result.url;
-  var id = request.params.id;
-  var bookTitle = request.body.title;
-  var book = await Book.findById(id);
-  book.title = bookTitle;
+  var book = await Book.findById(request.params.id);
+  book.title = request.body.title;
   book.coverUrl = url;
 
   try {
@@ -146,6 +143,7 @@ module.exports.delete = (request, response) => {
   response.redirect("/books-manage");
 };
 
-// module.exports.delete = (request, response) => {
-//   var id = request.params.id
-// }
+module.exports.delete = async (request, response) => {
+  await Book.findByIdAndDelete(request.params.id);
+  response.redirect("/books-manage");
+};
