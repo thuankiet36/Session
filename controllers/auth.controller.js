@@ -75,13 +75,17 @@ module.exports.postLogin = async (request, response, next) => {
         values: request.body,
       });
       count += 1;
-      await User.findOne({email: email})
-      user.wrongLoginCount= count
+      var user = await User.findOne({ email: email });
+      user.wrongLoginCount = count;
+      try {
+        user = await user.save();
+        console.log(user.wrongLoginCount);
+      } catch (e) {
+        next(e);
+      }
     }
     if (count === 3) {
       response.send("Your account is currently locked");
-      response.locals.user = user;
-      next();
     }
   }
 };
@@ -91,22 +95,42 @@ module.exports.create = (request, response) => {
   response.render("./auth/create.auth.pug");
 };
 
-module.exports.postCreate = async (request, response) => {
-  var id = shortId.generate();
-  var hashedPassword = await bcrypt.hash(request.body.password, saltRounds);
-  db.get("users")
-    .push({
-      id: id,
-      userName: request.body.userName,
-      email: request.body.email,
-      password: hashedPassword,
-      isAdmin: false,
-      wrongLoginCount: 0,
-      avatarUrl:
-        "http://res.cloudinary.com/dkoligyxo/image/upload/v1589434822/smyq494puvjutiykegik.jpg",
-      books: [],
-    })
-    .write();
+// module.exports.postCreate = async (request, response) => {
+//   var id = shortId.generate();
+//   var hashedPassword = await bcrypt.hash(request.body.password, saltRounds);
+//   db.get("users")
+//     .push({
+//       id: id,
+//       userName: request.body.userName,
+//       email: request.body.email,
+//       password: hashedPassword,
+//       isAdmin: false,
+//       wrongLoginCount: 0,
+//       avatarUrl:
+//         "http://res.cloudinary.com/dkoligyxo/image/upload/v1589434822/smyq494puvjutiykegik.jpg",
+//       books: [],
+//     })
+//     .write();
 
-  response.redirect("/auth/login");
+//   response.redirect("/auth/login");
+// };
+
+module.exports.postCreate = async (request, response) => {
+  var hashedPassword = await bcrypt.hash(request.body.password, saltRounds);
+  var user = new User({
+    userName: request.body.userName,
+    email: request.body.email,
+    password: hashedPassword,
+    isAdmin: false,
+    wrongLoginCount: 0,
+    avatarUrl:
+      "http://res.cloudinary.com/dkoligyxo/image/upload/v1589434822/smyq494puvjutiykegik.jpg",
+    books: [],
+  });
+  try {
+    user = await user.save();
+    response.redirect("/auth/login");
+  } catch (e) {
+    next(e);
+  }
 };

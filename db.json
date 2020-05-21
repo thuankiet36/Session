@@ -295,6 +295,16 @@
       "wrongLoginCount": 1,
       "avatarUrl": "http://res.cloudinary.com/dkoligyxo/image/upload/v1589434822/smyq494puvjutiykegik.jpg",
       "books": []
+    },
+    {
+      "id": "4DsHdoX4J",
+      "userName": "Rengar",
+      "email": "rengar@gmail.com",
+      "password": "$2b$10$eOE24FP3M9awXSvgC9mx6eLOgD1dDcullZbBRX0XyZHtPJF2Cz/PW",
+      "isAdmin": false,
+      "wrongLoginCount": 0,
+      "avatarUrl": "http://res.cloudinary.com/dkoligyxo/image/upload/v1589434822/smyq494puvjutiykegik.jpg",
+      "books": []
     }
   ],
   "transactions": [
@@ -386,6 +396,9 @@
     },
     {
       "id": "TUjwzQs4I"
+    },
+    {
+      "id": "8U9JadurQ"
     }
   ]
 }

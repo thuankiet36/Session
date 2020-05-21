@@ -14,7 +14,6 @@ module.exports.index = (request, response, next) => {
   for (var num in cartObj) {
     cart += cartObj[num];
   }
-  console.log(cart)
   response.render("./users/listBook.user.pug", {
     users: db.get("users").value(),
     books: db.get("books").value(),
