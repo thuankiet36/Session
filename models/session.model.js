@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 var sessionSchema = new mongoose.Schema({
-  cart : Array
+  cart: {
+    type: Object
+  }
 });
 
 var Session = mongoose.model("Session", sessionSchema, "sessions");

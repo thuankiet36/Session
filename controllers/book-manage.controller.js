@@ -137,11 +137,11 @@ module.exports.postEdit = async (request, response) => {
 };
 
 // delete book
-module.exports.delete = (request, response) => {
-  var id = request.params.id;
-  db.get("books").remove({ id: id }).write();
-  response.redirect("/books-manage");
-};
+// module.exports.delete = (request, response) => {
+//   var id = request.params.id;
+//   db.get("books").remove({ id: id }).write();
+//   response.redirect("/books-manage");
+// };
 
 module.exports.delete = async (request, response) => {
   await Book.findByIdAndDelete(request.params.id);
