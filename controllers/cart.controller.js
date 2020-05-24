@@ -1,8 +1,30 @@
-const shortId = require("shortid");
+const Session = require("../models/session.model");
 
-const db = require("../db.js");
+// module.exports.addToCart = (request, response, next) => {
+//   var bookId = request.params.bookId;
+//   var sessionId = request.signedCookies.sessionId;
 
-module.exports.addToCart = (request, response, next) => {
+//   if (!sessionId) {
+//     response.redirect("/books");
+//     return;
+//   }
+
+//   var count = db
+//     .get("sessions")
+//     .find({ id: sessionId })
+//     .get("cart." + bookId, 0)
+//     .value();
+//   console.log(count)
+
+//   db.get("sessions")
+//     .find({ id: sessionId })
+//     .set("cart." + bookId, count + 1)
+//     .write();
+
+//   response.redirect("/books");
+// };
+
+module.exports.addToCart = async (request, response, next) => {
   var bookId = request.params.bookId;
   var sessionId = request.signedCookies.sessionId;
 
@@ -11,16 +33,33 @@ module.exports.addToCart = (request, response, next) => {
     return;
   }
 
-  var count = db
-    .get("sessions")
-    .find({ id: sessionId })
-    .get("cart." + bookId, 0)
-    .value();
-
-  db.get("sessions")
-    .find({ id: sessionId })
-    .set("cart." + bookId, count + 1)
-    .write();
-
+  var session = await Session.findOne({ _id: sessionId });
+  if (typeof session.cart === "undefined") {
+    session.cart = [];
+    session.cart.push({
+      id: bookId,
+      quantity: 1,
+    });
+  } else {
+    var cart = session.cart;
+    var newBook = true;
+    for (var i = 0; i < cart.length; i++) {
+      if (cart[i].id === bookId) {
+        cart[i].quantity++;
+        newBook = false;
+      }
+    }
+    if (newBook) {
+      cart.push({
+        id: bookId,
+        quantity: 1,
+      });
+    }
+  }
+  try {
+    session = await session.save();
+  } catch (e) {
+    next(e);
+  }
   response.redirect("/books");
 };

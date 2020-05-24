@@ -21,6 +21,7 @@ mongoose.connect(process.env.URL, {
     console.log("Error connecting to database")
   }
 });
+mongoose.set('useFindAndModify', false);
 
 const bookManageRoute = require("./routes/book-manage.route.js");
 const bookRoute = require("./routes/book.route.js");

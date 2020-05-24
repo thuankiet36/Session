@@ -1,7 +1,5 @@
-const shortId = require("shortid");
 const cloudinary = require("cloudinary");
 
-const db = require("../db.js");
 const Book = require("../models/book.model.js");
 
 require("../utils/cloudinary");
@@ -76,7 +74,8 @@ module.exports.postCreate = async (request, response, next) => {
     description: request.body.description,
     coverUrl: url,
   });
-  try {
+
+  try { 
     book = await book.save();
     response.redirect("/books-manage");
   } catch (error) {

@@ -1,8 +1,6 @@
 const Book = require("../models/book.model.js");
 const Session = require("../models/session.model.js");
 
-const db = require("../db.js");
-
 // module.exports.index = (request, response) => {
 //   var page = parseInt(request.query.page) || 1;
 //   var perPage = 5;
@@ -36,18 +34,21 @@ module.exports.index = async (request, response) => {
   var end = page * perPage;
   var sessionId = request.signedCookies.sessionId;
   var userId = request.signedCookies.userId;
-  var cart = 0;
-  var session = await Session.findOne({ _id: sessionId });
-  session.cart = cart;
-  for (var num in cartObj) {
-    cart += cartObj[num];
+  var totalCart = 0;
+
+  if (sessionId) {
+    var session = await Session.findOne({ _id: sessionId });
+    var cart = session.cart;
+    for (var i = 0; i < cart.length; i++) {
+      totalCart += cart[i].quantity;
+    }
   }
 
   response.render("./books/book.pug", {
     books: books.slice(start, end),
     pages: pages,
     current: page,
-    cart: cart,
+    cart: totalCart,
     userId: userId,
   });
 };

@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 var bookSchema = new mongoose.Schema({
   title: {
-    type:String,
-    required: true
+    type: String,
+    required: true,
   },
   description: {
-    type: String
+    type: String,
   },
   coverUrl: {
     type: String,
-    required: true
+    required: true,
   },
 });
 

@@ -1,6 +1,4 @@
-const shortId = require("shortid");
 const Session = require("../models/session.model");
-const db = require("../db.js");
 
 // module.exports = (request, response, next) => {
 //   if (!request.signedCookies.sessionId) {
@@ -20,6 +18,7 @@ const db = require("../db.js");
 module.exports = async (request, response, next) => {
   if (!request.signedCookies.sessionId) {
     var session = new Session();
+
     response.cookie("sessionId", session._id, {
       signed: true,
     });
@@ -29,5 +28,6 @@ module.exports = async (request, response, next) => {
       next(e);
     }
   }
+  response.locals.session = session;
   next();
 };
