@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const nodeMailer = require("nodemailer");
-const db = require("../db.js");
 
 const adminEmail = process.env.EMAIL;
 const adminPassWord = process.env.PASSWORD;
