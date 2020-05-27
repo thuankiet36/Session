@@ -10,6 +10,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
+var port = process.env.PORT || 3000
+
 mongoose.connect(process.env.URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -69,6 +71,6 @@ app.use("/auth", authRoute);
 app.use("/profile", authMiddleware.requireAuth, profileRoute);
 app.use("/cart", cartRoute);
 
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+const listener = app.listen(port, () => {
+  console.log("Your app is listening on port ");
 });
