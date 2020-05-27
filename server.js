@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 
 var port = process.env.PORT || 3000
 
-mongoose.connect(process.env.URL, {
+mongoose.connect(process.env.MONGODB_URI || process.env.URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }, (err) => {
