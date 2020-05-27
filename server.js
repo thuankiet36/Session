@@ -72,5 +72,5 @@ app.use("/profile", authMiddleware.requireAuth, profileRoute);
 app.use("/cart", cartRoute);
 
 const listener = app.listen(port, () => {
-  console.log("Your app is listening on port ");
+  console.log(`Your app is listening on port ${port}`);
 });
