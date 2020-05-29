@@ -1,0 +1,16 @@
+html
+  head
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css') 
+    link(rel='icon' type='image/png' href='https://cdn.glitch.com/27c7efdb-5c56-4c84-a6a9-737047d00772%2Ffavicon.png?v=1588664164997')
+  body
+    .container
+        h1 Welcome to #{user.userName} shop
+        .row.d-flex
+            each book in books
+                .col-4
+                    .card(style='width: 20rem')
+                        img.card-img-top(src=book.coverUrl, height='504')
+                        .card-body
+                            h5.card-title= book.title
+                            h6.card-text.text-danger= book.price 
+                            a.btn.btn-primary(href='#') Buy Now

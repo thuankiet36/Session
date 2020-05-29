@@ -1,0 +1,21 @@
+extends ../layout/common2
+
+block content
+    .container  
+        h1 Edit book
+
+        form(action='/shops/edit-book/'+book._id, method='POST', enctype='multipart/form-data')
+            .form-group
+                label Edit Book Name
+                input.form-control.shadow-none(name='title', type='text', value=book.title)
+
+            .form-group
+                label Edit Price
+                input.form-control.shadow-none(name='price', type='number', value=book.price)
+            
+            .form-group
+                label Edit Cover
+                br
+                input.shadow-none(type='file', name='cover', value=book.coverUrl)
+
+            button.btn.btn-primary.ml-2.shadow-none(type='submit') Update

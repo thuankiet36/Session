@@ -10,20 +10,23 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGODB_URI || process.env.URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}, (err) => {
-  if(!err) {
-    console.log("Seccess connected")
+mongoose.connect(
+  process.env.MONGODB_URI || process.env.URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err) => {
+    if (!err) {
+      console.log("Seccess connected");
+    } else {
+      console.log("Error connecting to database");
+    }
   }
-  else {
-    console.log("Error connecting to database")
-  }
-});
-mongoose.set('useFindAndModify', false);
+);
+mongoose.set("useFindAndModify", false);
 
 const bookManageRoute = require("./routes/book-manage.route.js");
 const bookRoute = require("./routes/book.route.js");
@@ -32,6 +35,8 @@ const transactionRoute = require("./routes/transaction.route.js");
 const authRoute = require("./routes/auth.route.js");
 const profileRoute = require("./routes/profile.route.js");
 const cartRoute = require("./routes/cart.route.js");
+const shopRoute = require("./routes/shop.route.js");
+const storeRoute = require("./routes/store.route.js");
 
 const authMiddleware = require("./middlewares/auth.middleware.js");
 const authorizationMiddleware = require("./middlewares/authorization.middleware.js");
@@ -70,7 +75,9 @@ app.use(
 app.use("/auth", authRoute);
 app.use("/profile", authMiddleware.requireAuth, profileRoute);
 app.use("/cart", cartRoute);
+app.use("/shops", authMiddleware.requireAuth, shopRoute);
+app.use("/store", storeRoute);
 
-const listener = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Your app is listening on port ${port}`);
 });

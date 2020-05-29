@@ -1,0 +1,49 @@
+extends ../layout/common2
+
+block content
+    .container
+        .d-flex
+            h1.flex-grow-1 Create your shop
+            a.d-flex.align-items-center(href="/store/" + user._id +"/books") Click here to go to your shop
+        h4.text-danger 1. Create your book
+        form(action='/shops/create' method='POST' enctype='multipart/form-data')
+            .form-group
+                label Title
+                input.form-control.shadow-none(name='title' type='text' placeholder='Title')
+        
+            .form-group
+                label Description
+                input.form-control.shadow-none(name='description' type='text' placeholder='Description')
+
+            .form-group
+                label Price
+                br
+                input.form-control.shadow-none(name='price' type='number' placeholder='Price')
+        
+            .form-group
+                label Cover
+                br
+                input.shadow-none(type='file' name='cover')
+
+            button.btn.btn-primary.shadow-none(type='submit') Add Book 
+        
+        h4.text-danger 2. Your list of books
+            table.table
+                tr
+                    th Cover
+                    th Book Name
+                    th Price
+                    th Description
+                    th Update Book
+                    th Delete Book
+                each book in user.shops
+                    tr
+                        td
+                            img(src=book.coverUrl width="64")
+                        td= book.title
+                        td= book.price
+                        td= book.description
+                        td
+                            a.pl-2.pr-2.text-white.rounded(href='/shops/edit-book/'+book._id style='background-color:dodgerblue; text-decoration:none; color:white') Update
+                        td
+                            a.pl-2.pr-2.text-white.rounded(href='/shops/' + book._id + '/delete' style='background-color:red; text-decoration:none; color:white') Delete

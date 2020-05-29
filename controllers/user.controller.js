@@ -11,7 +11,7 @@ module.exports.index = async (request, response, next) => {
     totalCart += cart[i].quantity;
   }
 
-  response.render("./users/listBook.user.pug", {
+  response.render("./users/index.pug", {
     cart: totalCart,
   });
   next();
@@ -25,10 +25,9 @@ module.exports.edit = async (request, response) => {
   });
 };
 
-
 module.exports.postEdit = async (request, response, next) => {
   var user = await User.findOne({ _id: request.params.userId });
-  user.userName = request.body.userName
+  user.userName = request.body.userName;
   try {
     user = await user.save();
   } catch (e) {
